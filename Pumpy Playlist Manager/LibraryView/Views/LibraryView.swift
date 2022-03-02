@@ -24,7 +24,7 @@ struct LibraryView: View {
             case .playlist(let playlist):
                 GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(libraryPlaylist: playlist, spotifyToken: authManager.spotifyToken))
             case .customPlaylist:
-                CreatePlaylistView()
+                CreatePlaylistView(createPlaylistVM: CreatePlaylistViewModel())
             }
             Spacer()
         }

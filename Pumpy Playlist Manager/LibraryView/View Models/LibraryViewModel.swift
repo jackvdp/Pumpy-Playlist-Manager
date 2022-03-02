@@ -22,7 +22,11 @@ class LibraryViewModel: ObservableObject {
     }
     
     func toggleSelectItem(playlist: LibraryPlaylist) {
-        itemsSelected.contains(playlist) ? selectItem(playlist: playlist) : unSelectItem(playlist: playlist)
+        if itemsSelected.contains(playlist) {
+            unSelectItem(playlist: playlist)
+        } else {
+            selectItem(playlist: playlist)
+        }
     }
     
     func selectItem(playlist: LibraryPlaylist) {
@@ -39,7 +43,7 @@ class LibraryViewModel: ObservableObject {
         case .library:
             itemsSelected = [playlist]
         case .create:
-            itemsSelected.append(playlist)
+            itemsSelected.removeAll(where: { $0 == playlist})
         }
     }
     
