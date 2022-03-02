@@ -12,71 +12,35 @@ import Apollo
 class GetPlaylistViewModel: ObservableObject {
     
     @Published var playlistRecieved: Playlist?
-    @Published var errorMessage: ErrorMessage = ErrorMessage("Error", "")
+    @Published var errorMessage: ErrorMessage = ErrorMessage("Error", "") {
+        didSet {
+            showError.toggle()
+        }
+    }
     @Published var showError = false
     @Published var isSearching = false
+
+    let getPlaylistModel: GetPlaylistModel
     
-    let id: String
-    
-    init(id: String) {
-        self.id = id
+    init(libraryPlaylist: LibraryPlaylist, spotifyToken: String?) {
+        getPlaylistModel = GetPlaylistModel(libraryPlaylist: libraryPlaylist, spotifyToken: spotifyToken)
         getPlaylist()
     }
     
     private func getPlaylist() {
         isSearching = true
-        let query = GetPlaylistQuery(playlistID: id)
         
-        Apollo.shared.client.fetch(query: query) { result in
+        getPlaylistModel.getPlaylist { playlist, error in
             self.isSearching = false
-            switch result {
-            case .success(let data):
-                print("Got data")
-                self.dealWithData(data)
-            case .failure(let error):
-                self.errorMessage = ErrorMessage("Error loading Playlist", "Error loading data: \(error.localizedDescription).")
-                self.showError = true
+            if let e = error {
+                self.errorMessage = e
             }
-        }
-    }
-    
-    private func dealWithData(_ data: GraphQLResult<GetPlaylistQuery.Data>) {
-        
-        if let playlist = data.data?.playlist {
-            
-            if let tracks = playlist.tracks?.edges {
-                
-                let decodedTracks: [Track] = tracks.compactMap { track in
-                    let trk = track.node
-                    if let isrc = trk.isrc {
-                        return Track(
-                            title: trk.title,
-                            artist: trk.artists?.first?.name ?? "N/A",
-                            album: trk.album?.title ?? "N/A",
-                            isrc: isrc,
-                            artworkURL: trk.display?.image?.placeholder,
-                            previewUrl: trk.previewUrl,
-                            recognizability: trk.recognizability,
-                            shareURL: trk.shareUrl
-                        )
-                    } else {
-                        return nil
-                    }
-                }
-                
-                playlistRecieved = Playlist(name: playlist.name,
-                                            tracks: decodedTracks,
-                                            artworkURL: playlist.display?.image?.placeholder,
-                                            description: playlist.description,
-                                            shortDescription: playlist.shortDescription,
-                                            id: id)
+            if let p = playlist {
+                self.playlistRecieved = p
             }
-        } else {
-            self.errorMessage = ErrorMessage("Error loading Playlist", "Error loading data: Invalid Playlist ID.")
-            self.showError = true
         }
         
     }
-    
+
 }
 

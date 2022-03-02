@@ -13,8 +13,8 @@ struct Header: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if let function = backFunction {
-                HStack {
+            HStack {
+                if let function = backFunction {
                     Button {
                         function()
                     } label: {
@@ -25,11 +25,7 @@ struct Header: View {
                     }
                     .buttonStyle(.plain)
                     .padding(.trailing)
-                    Text(title)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
                 }
-            } else {
                 Text(title)
                     .font(.largeTitle)
                     .fontWeight(.bold)

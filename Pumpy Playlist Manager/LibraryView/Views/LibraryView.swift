@@ -10,22 +10,21 @@ import SwiftUI
 struct LibraryView: View {
     
     @EnvironmentObject var libraryManager: LibraryManager
-    @StateObject var libraryVM = LibraryViewModel()
+    @EnvironmentObject var authManager: AuthorisationManager
+    @StateObject var libraryVM: LibraryViewModel
     
     var body: some View {
         VStack {
-            Header(title: "Library", backFunction: libraryVM.activateBack())
+            Header(title: libraryVM.headerTitle(),
+                   backFunction: libraryVM.showBack())
             Spacer()
-            if libraryManager.libraryPlaylists.isEmpty {
-                Text("No playlists saved")
-                    .font(.title)
-            } else {
-                if libraryVM.playlistSelected == nil {
-                    LibraryGridView(libraryVM: libraryVM)
-                } else if let playlist = libraryVM.playlistSelected {
-                    GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(id: playlist.id))
-                }
-                
+            switch libraryVM.libraryNav {
+            case .library:
+                LibraryGridView(libraryVM: libraryVM)
+            case .playlist(let playlist):
+                GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(libraryPlaylist: playlist, spotifyToken: authManager.spotifyToken))
+            case .customPlaylist:
+                CreatePlaylistView()
             }
             Spacer()
         }
@@ -38,8 +37,7 @@ struct LibraryView_Previews: PreviewProvider {
     static let libraryManager = LibraryManager()
     
     static var previews: some View {
-        //        libraryManager.libraryPlaylists = [MockData.mockLibraryPlaylist]
-        return LibraryView()
+        return LibraryView(libraryVM: LibraryViewModel(mode: .library))
             .environmentObject(libraryManager)
             .environmentObject(PlayerManager())
             .environmentObject(AccountManager())

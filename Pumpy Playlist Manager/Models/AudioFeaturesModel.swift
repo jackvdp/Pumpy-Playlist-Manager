@@ -8,21 +8,17 @@
 import Foundation
 
 struct AudioFeatures: Codable, Hashable {
-    var danceability: Float?
-    var energy: Float?
+    var danceability: Float? //  how dancey a track is based on elements including tempo, rhythm stability, beat strength, and overall regularity
+    var energy: Float? // energetic tracks feel fast, loud, and noisy. For example, death metal has high energy
     var key: Int?
     var loudness: Float?
-    var tempo: Float?
-    var valence: Float?
-    var liveliness: Float?
-}
-
-struct AudioFeaturesString {
-    
-    let features: AudioFeatures
+    var tempo: Float? // BPM
+    var valence: Float? // Happiness
+    var liveliness: Float? // Audience/live music
+    var id: String?
     
     var danceabilityString: String {
-        if let d = features.danceability {
+        if let d = danceability {
             let percentage = d * 100
             let int = Int(percentage)
             return "\(int)%"
@@ -32,7 +28,7 @@ struct AudioFeaturesString {
     }
     
     var energyString: String {
-        if let d = features.energy {
+        if let d = energy {
             let percentage = d * 100
             let int = Int(percentage)
             return "\(int)%"
@@ -42,7 +38,7 @@ struct AudioFeaturesString {
     }
     
     var loudnessString: String {
-        if let d = features.loudness {
+        if let d = loudness {
             let percentage = d * 100
             let int = Int(percentage)
             return "\(int)%"
@@ -52,7 +48,7 @@ struct AudioFeaturesString {
     }
     
     var tempoString: String {
-        if let d = features.tempo {
+        if let d = tempo {
             let int = Int(d)
             return "\(int)"
         } else {
@@ -61,7 +57,7 @@ struct AudioFeaturesString {
     }
     
     var valenceString: String {
-        if let d = features.valence {
+        if let d = valence {
             let percentage = d * 100
             let int = Int(percentage)
             return "\(int)%"
@@ -71,7 +67,7 @@ struct AudioFeaturesString {
     }
     
     var livelinessString: String {
-        if let d = features.liveliness {
+        if let d = liveliness {
             let percentage = d * 100
             let int = Int(percentage)
             return "\(int)%"
@@ -79,5 +75,4 @@ struct AudioFeaturesString {
             return "N/A"
         }
     }
-    
 }

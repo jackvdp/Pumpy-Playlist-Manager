@@ -10,12 +10,14 @@ import CachedAsyncImage
 
 struct LibraryItemView: View {
     
-    let libraryPlaylist: LibraryPlaylist
+    let playlist: LibraryPlaylist
+    let libraryVM: LibraryViewModel
+    @Binding var itemSelected: [LibraryPlaylist]
     let itemSize = 150
     
     var body: some View {
         VStack(alignment: .leading) {
-            CachedAsyncImage(url: URL(string: libraryPlaylist.artworkURL?.getArtworkURLForSize(itemSize) ?? "")) { image in
+            CachedAsyncImage(url: URL(string: playlist.artworkURL?.getArtworkURLForSize(itemSize) ?? "")) { image in
                 image.resizable()
             } placeholder: {
                 Image(K.Images.pumpyArtwork)
@@ -23,19 +25,20 @@ struct LibraryItemView: View {
             }
             .cornerRadius(5)
             .frame(width: CGFloat(itemSize), height: CGFloat(itemSize))
-            Text(libraryPlaylist.name)
+            Text(playlist.name ?? "N/A")
                 .lineLimit(1)
-            Text(libraryPlaylist.shortDescription ?? "")
+            Text(playlist.shortDescription ?? "")
                 .lineLimit(2)
                 .opacity(0.5)
         }
         .frame(width: CGFloat(itemSize), height: CGFloat(itemSize + 55), alignment: .top)
         .padding()
+        .buttonStyle(.plain)
     }
 }
 
-struct LibraryItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        LibraryItemView(libraryPlaylist: MockData.mockLibraryPlaylist)
-    }
-}
+//struct LibraryItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LibraryItemView(libraryPlaylist: MockData.mockLibraryPlaylist)
+//    }
+//}

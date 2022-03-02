@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     
     @StateObject var searchVM = PlaylistSearchViewModel()
+    @EnvironmentObject var authManager: AuthorisationManager
 
     var body: some View {
         VStack() {
@@ -18,8 +19,8 @@ struct SearchView: View {
                 SearchBar(searchVM: searchVM)
             }
             Spacer()
-            if let id = searchVM.playlistID {
-                GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(id: id))
+            if let libPlay = searchVM.libraryPlaylist {
+                GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(libraryPlaylist: libPlay, spotifyToken: authManager.spotifyToken))
                 Spacer()
             }
         }

@@ -16,7 +16,9 @@ struct MockData {
                                  artworkURL: "",
                                  previewUrl: "",
                                  recognizability: 100,
-                                 shareURL: nil
+                                 shareURL: nil,
+                                 sybID: "",
+                                 spotifyToken: nil
                                 )
     
     static let mockTracks = [Track](repeating: mockTrack, count: 200)
@@ -26,7 +28,8 @@ struct MockData {
                                        artworkURL: nil,
                                        description: "Romantic and elegant jazz for two. A table not too close to the orchestra.",
                                        shortDescription: "Romantic and elegant jazz for two. A table not too close to the orchestra.",
-                                       id: "fenrfkrenf")
+                                       id: "fenrfkrenf",
+                                       spotifyToken: "kiklm,kl")
     
     static let mockLibraryPlaylist = LibraryPlaylist(name: "Test", id: "erfnrtujgntrk", shortDescription: "Romantic and elegant jazz for two. A table not too close to the orchestra.")
     

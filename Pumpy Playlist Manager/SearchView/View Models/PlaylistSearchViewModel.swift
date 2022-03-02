@@ -10,7 +10,7 @@ import Foundation
 class PlaylistSearchViewModel: SearchViewModel {
     
     @Published var searchTerm = String()
-    @Published var playlistID: String?
+    @Published var libraryPlaylist: LibraryPlaylist?
     @Published var errorMessage: ErrorMessage = ErrorMessage("Error", "")
     @Published var showError = false
     
@@ -23,10 +23,11 @@ class PlaylistSearchViewModel: SearchViewModel {
     func runSearch() {
         if searchTerm != "" {
             if let component = searchTerm.split(separator: "/").last {
-                playlistID = String(component)
+                let id = String(component)
+                libraryPlaylist = LibraryPlaylist(name: "", artworkURL: nil, id: id, shortDescription: nil, tracks: nil)
                 return
             }
-            playlistID = nil
+            libraryPlaylist = nil
             errorMessage = ErrorMessage("Invalid URL", "Please provide a URL containing the playlist ID as the final component.")
             self.showError = true
         }

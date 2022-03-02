@@ -31,7 +31,7 @@ struct GetPlaylistView: View {
 
 struct PlaylistView_Previews: PreviewProvider {
     static var previews: some View {
-        GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(id: "encfeknj"))
+        GetPlaylistView(getPlaylistVM: GetPlaylistViewModel(libraryPlaylist: LibraryPlaylist(), spotifyToken: nil))
     }
 }
 

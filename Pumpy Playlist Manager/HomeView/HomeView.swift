@@ -16,11 +16,14 @@ struct HomeView: View {
                     MenuItem(destination: EmptyView(),
                              label: "Home",
                              image: "house.fill")
-                    MenuItem(destination: LibraryView(),
-                             label: "Playlists",
+                    MenuItem(destination: LibraryView(libraryVM: LibraryViewModel(mode: .library)),
+                             label: "Library",
                              image: "music.note.list")
+                    MenuItem(destination: LibraryView(libraryVM: LibraryViewModel(mode: .create)),
+                             label: "Create Playlist",
+                             image: "bonjour")
                     MenuItem(destination: SearchView(),
-                             label: "Search Playlists",
+                             label: "Search",
                              image: "magnifyingglass")
                     MenuItem(destination: LoginView(),
                              label: "Accounts",

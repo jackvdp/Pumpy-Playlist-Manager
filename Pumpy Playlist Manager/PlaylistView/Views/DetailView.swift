@@ -14,7 +14,7 @@ struct DetailView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(playlistVM.playlist.name)
+                Text(playlistVM.playlist.name ?? "N/A")
                     .font(.title)
                 Text("\(playlistVM.playlist.tracks.count) tracks")
                     .opacity(0.5)
