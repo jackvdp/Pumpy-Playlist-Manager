@@ -1,0 +1,42 @@
+mutation Login($email: String!, $password: String!) {
+  loginUser(input: {email: $email, password: $password}) {
+    token
+    refreshToken
+  }
+}
+
+query GetPlaylist($playlistID: ID!) {
+  playlist(id: $playlistID) {
+    name
+    display {
+        image {
+            placeholder
+        }
+    }
+    description
+    shortDescription
+    tracks(first: 1000, market: GB) {
+      edges {
+        node {
+          title
+          artists {
+            name
+          }
+          album {
+            title
+          }
+          id
+          isrc
+          previewUrl
+          recognizability
+          display {
+                image {
+                    placeholder
+                }
+            }
+        shareUrl
+        }
+      }
+    }
+  }
+}
